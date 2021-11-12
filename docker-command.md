@@ -9,6 +9,11 @@ https://docs.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-th
 
 3. Restart windows
 
+# Docker best practices
+1. One service per container
+2. Build context should be small
+3. Avoid unnecessary packages
+4. Less layers
 
 # Docker common commands
 
@@ -30,24 +35,50 @@ Remove an image
 > Or
 > docker rmi <image_name>:<version>
 
+**Dangling image**
+That are images without name or tag when you show list of images command.
+It happens when you create a duplicate image name. The latest image built if the last version, and other ones are became dangling images.
+To avoid dangling image, **Please use tag when build an image**
+
+Filter dangling images
+> docker images -f dangling=true
+> -f = filter.
+
+Only show image id
+> docker image -q
+> -q: 
+
+To remove every dangling images
+> docker rmi $(docker images -f dangling=true -q)
+
+
+
 # Docker Container
+
+Show help
+> docker run --help
 
 List of docker container
 > docker ps
+> docker container ls
 
 List of all docker containers including stopped container
 > docker ps -all
 
-Create a new container
+Create a new container. If you dont assign the name for the container, It will randomly the name for it
 > docker run -d <image_name>
 > Options:
 >> -d: Run container in background and print container ID
+
+Rename a container
+> docker rename <current_name> <new_name>
 
 Remove a container
 > docker rm <container>
 
 To force delete a container
 > docker rm -f <container>
+> -f: force
 
 To enter inside the running container
 > docker exec -it <container> sh (bash is on linux)
@@ -87,7 +118,7 @@ Default, the user working in the container is root user. To create a new user an
 For some example, we want to change user working in the container and create new file or delete files with the created folder.
 > RUN useradd <user_name> //Create new user
 > USER <user_name> // Switch to created user
-> 
+
 Create a new user and change the ownership of the folders or file (user_name:user_group_name)
 > RUN useradd <user_name> && chown <user_name>:<user_name> . - R
 
@@ -101,5 +132,15 @@ Using ARGs to build an image dynamically
    > docker build -t <image_name>:<version> -f <Dockerfile> --build-arg user=hungtran .
 
 build with multiple argument
->build build -t <image_name>:<version> -f <Dockerfile> --build-arg <arg1>=<value> --build-arg <arg2>=<value>
+> build build -t <image_name>:<version> -f <Dockerfile> --build-arg <arg1>=<value> --build-arg <arg2>=<value>
 
+How to ignore files or folders in the context when build a docker image. You should create the .dockerignore file,
+When the Docker cli build an image, it will lock for .dockerignore to check does has any ignore in the process
+1. Create a .dockerignore
+
+Example
+> #.dockerignore file
+> 
+> <folder_name>
+> <file_name>
+> <file_path>
