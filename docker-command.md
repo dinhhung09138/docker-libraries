@@ -90,6 +90,40 @@ Options:
 Show log of the container
 >docker logs <container> or <container>
 
+Map port from localhost to port in container
+> docker run -d -p <localhost_post>:<container_port> <image_id>
+> -p: port
+
+To build a container with variables
+> docker run -d -e "variable=value" -e "var2=value2 <image_name>
+> -e: environment variable
+
+To take a look at the configuration of a container
+> docker inspect <container_id>
+
+Create mysql container
+> docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=DockerDb -e MYSQL_USER=docker -e MYSQL_PASSWORD=123456 mysql:latest
+> MYSQL_ROOT_PASSWORD: Set password for root user
+> MYSQL_DATABASE: the database created after container run
+> MYSQL_USER: Adding new user login to mysql
+> MYSQL_PASSWORD: Set password to new user
+> -d: detatch, run the container in the background and print out container id
+> --name: set container name
+> -e: environment variables, adding container variables
+> -p: port, mapping port
+
+Create postgres container
+> docker run -d --name mysql -p 5432:5432 -e POSTGRES_DB=DockerDb -e POSTGRES_USER=docker -e POSTGRESS_PASSWORD=123456 postgres:latest
+> POSTGRES_DB: Intilial database name after container created
+> POSTGRES_USER: User name
+> POSTGRES_PASSWORD: Password
+> -d: detatch, run the container in the background and print out container id
+> --name: set container name
+> -e: environment variables, adding container variables
+> -p: port, mapping port
+
+
+
 # Docker file
 
 Download a file from the internet. If we dont specific the destination file name, it will use the default name from source file.
