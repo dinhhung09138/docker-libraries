@@ -65,6 +65,9 @@ List of docker container
 List of all docker containers including stopped container
 > docker ps -all
 
+To show the last created container
+> docker ps -l
+
 Create a new container. If you dont assign the name for the container, It will randomly the name for it
 > docker run -d <image_name>
 > Options:
@@ -81,7 +84,7 @@ To force delete a container
 > -f: force
 
 To enter inside the running container
-> docker exec -it <container> sh (bash is on linux)
+> docker exec -it <container> bash (sh is on linux)
 
 Options:
 -t: terminal
@@ -100,6 +103,28 @@ To build a container with variables
 
 To take a look at the configuration of a container
 > docker inspect <container_id>
+
+To returns a live data stream for running containers 
+> docker stats
+or
+> docker stats <container_id>
+
+To limit container uses memory, we use --memory options
+> docker run -d --name nginx nginx:latest --memory "200mb"
+
+To limit CPUs use when create docker container, In case your computer has move than 1 CPU available.
+> docker run -d --name nginx nginx:latest --cpuset_cpus 0
+> option
+> 0-3: it means use from CPU 0 to CPU 3
+> 0,3: it means use CPU 0 and CPU 3
+
+Copy files from your host to your container.
+> docker cp <container_name>:<host_file_path> <container_destination_path>
+
+Destroy the containers automatically after exit. In case you want to view inside the image. For example, you check unzip files, file downloaded from the internet,... You will create a temporary container
+> docker run --rm -d nginx:alpine bash
+
+
 
 Create mysql container
 > docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=DockerDb -e MYSQL_USER=docker -e MYSQL_PASSWORD=123456 mysql:latest
@@ -121,7 +146,6 @@ Create postgres container
 > --name: set container name
 > -e: environment variables, adding container variables
 > -p: port, mapping port
-
 
 
 # Docker file
@@ -178,3 +202,29 @@ Example
 > <folder_name>
 > <file_name>
 > <file_path>
+
+# Basic Linux commands
+
+
+Read the file, writing them to standard output
+> cat <file_name>
+
+> grep <keyword>
+
+Searching plain-text data sets for lines that match a regular expression.
+
+List computer fiels in Unix and Unix-like operating systems
+> ls
+
+Show all folders and files size
+> ls -sh
+
+Create new dictionary
+> mkdir
+
+Show all files and folder 
+> free -h
+
+Show number of CPUs available
+> grep "model name /proc/cpuinfo wc -l
+
