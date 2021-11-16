@@ -147,6 +147,8 @@ Create postgres container
 > -e: environment variables, adding container variables
 > -p: port, mapping port
 
+Create mongo docker 
+> docker run -d --name mongo -v mongo:/data/db -p 27018:27017 mongo:latest
 
 # Docker file
 
@@ -203,6 +205,70 @@ Example
 > <file_name>
 > <file_path>
 
+# Docker volumes
+for example your container died, you find a way to store your container data into your local machine.
+To find a folder the container data install and use. Please check the image information on docker hub
+
+**Bind volume**
+This type of volume doest not manage by Docker. It use to map the data from container to the host directly
+To map the folder inside the container to the host. The syntax when create a container. Use absolute path for the host directory
+> docker run -d -v <host_path>:<container_path> <image_name>
+
+To map back the data inside the host folder to the container. Please create the command the same when create new container. It will map automatically.
+> docker run -d -v <host_path>:<container_path> <image_name>
+
+Create mysql container with volume
+> docker -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 -v <host_path>:/var/lib/mysql mysql:latest
+
+**volume**
+Manage by docker and we can create new volumes by docker command.
+By default, the command create a new folder inside the root directory with the name you provided
+> docker volume create <create_name>
+
+Create mysql container with volume
+> docker -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 -v <volume_name>:/var/lib/mysql mysql:latest
+
+To show list of volumes
+> docker volume ls
+
+To map the docker volumn with the path of the container when it create,  please change the path to the volume name.
+> docker run -v <volume_name>:<container_path> <image_name>
+
+**Anonymous volume**
+Docker provide a random folder where you can find your information. It is temporary folder so when you delete a container, the volume will be deleted without noticing.
+
+Delete volume
+> docker volume rm <id_1> <id_2> <id_3> <id_...>
+
+Create mysql container with anonymous volume
+> docker -d --name mysql -e MYSQL_ROOT_PASSWORD=123456 -v /var/lib/mysql mysql:latest
+
+To remove the anonymous volume created when start a new container. Please use -v option
+> docker rm -f -v <container_id>
+
+**The different between volume and anonymous volume**
+1. The name is easy to understand
+2. Anonymous volume will be deleted when delete the container with **-v** option
+3. Volume folder still there when delete the container with **-v** option
+
+**When we use docker, We should not use anonymous volume**
+
+Using inspect command to check the docker volume
+> docker inspect <container_id>
+> View "Amounts" key
+
+To find a root folder from docker
+> docker info | findstr -i root (command in windows)
+
+**Dangling volumes**
+These volumes are not associated with any container. To figure out dangling volume
+> docker volume ls -f dangling=true
+
+To remove all dangling volumes
+> docker volume rm $(docker volume ls -f dangling=true -q)
+
+
+
 # Basic Linux commands
 
 
@@ -219,6 +285,9 @@ List computer fiels in Unix and Unix-like operating systems
 Show all folders and files size
 > ls -sh
 
+Show list files and folder with permission
+> ls -l
+
 Create new dictionary
 > mkdir
 
@@ -227,4 +296,7 @@ Show all files and folder
 
 Show number of CPUs available
 > grep "model name /proc/cpuinfo wc -l
+
+To read a file without using -it
+> docker exec <container_name> bash -c "command"
 
