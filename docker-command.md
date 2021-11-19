@@ -267,7 +267,50 @@ These volumes are not associated with any container. To figure out dangling volu
 To remove all dangling volumes
 > docker volume rm $(docker volume ls -f dangling=true -q)
 
+**Share docker volumes**
+We can create **bind-volume** or **volume** and can map with many containers
 
+# Docker Network
+**Bridge Network** is the default network, When we create a new container, it will auto assign bridge network to that container.
+
+To show all network in docker
+> docker network ls
+
+To show network details
+> docker network inspect <network_name>
+> docker network inspect bridge
+
+To view network of the container, run the command bellow and view the "Networks" node.
+> docker inspect <container_id>
+
+To view all containers are using network. Run the command bellow and view "Containers" node
+> docker network inspect <network_name>
+
+To ping from the container a to container b
+> docker exec sh -c "pi
+
+To create a new newwork
+> docker network create -d <driver> --subnet 172.18.0.0/16 --gateway 172.18.0.1 <network_name>
+> <driver>: default is bridge
+
+To connect a network with a container in another network.
+It will add container inside the network with new IP address.
+> docker network connect <network_name> <container_name>
+
+To disconnect the network
+> docker network disconnect <network_name> <container_name>
+
+To remove the custom network
+> docker network rm <network_name>
+
+To assign IP address to a container. You can assign an IP with your network created, cannot assign to default network
+> docker run -dti --name <container_name> --network <network_name> --ip 172.19.0.10 <image>
+
+**Host** network
+When you create a container using host network, That means it share the network attributes of the docker host (current machine).
+
+**None** network
+When we create a new container using none network, It will create a container without any ipaddress or gateway.
 
 # Basic Linux commands
 
