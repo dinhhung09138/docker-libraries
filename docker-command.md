@@ -312,6 +312,51 @@ When you create a container using host network, That means it share the network 
 **None** network
 When we create a new container using none network, It will create a container without any ipaddress or gateway.
 
+# Docker compose
+
+- To combine multiple commands into a files
+- We can add add more services, or adding more container
+- We can manage more easyer.
+
+**docker-compose.yml** is the default name
+
+The contain of the docker-compose file:
+There are 4 main section inside the docker compose file.
+**version**
+This is the section to specific the version of the docker.
+Please use access this [**link**](https://docs.docker.com/compose/compose-file/) to check the version you want.
+**services**
+This is the section where you can setup your services and build a image, container,
+Please access to this [**link**](https://docs.docker.com/compose/compose-file/compose-file-v3/) to see some examples
+> #This is the mandatory
+>
+> version: '3'
+>
+> #This is the mandatory
+>
+> services:
+>
+> #This is the optional
+>
+> volumes:
+>
+> #This is the optional
+>
+> networks:
+
+
+**To use the docker-compose. We should navigate to the current directory you are using the docker-compose file.**
+
+To build a container from docker-compose file. By default, Docker compose will read the default file **docker-compose.yml** at the current directory
+> docker-compose up -d
+
+To specify the docker compose file
+> docker-compose -f <file_name>.yml up/down
+
+To remove docker compose
+> docker-compose down 
+
+
 # Basic Linux commands
 
 

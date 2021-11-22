@@ -1,0 +1,38 @@
+# This is the mandatory
+version: '3'
+# This is the mandatory
+services:
+  # Assign the name for the service
+  mysql:
+    # use image name
+    image: mysql:latest
+    # Assign a container name
+    container_name: 'mysql'
+    # port mapping
+    ports:
+      - '3307:3306'
+    # To implement environment variable, we have 2 way
+    # Case 1
+    # This is the way to apply environment variables to the new container directly the docker compose file
+    #environment:
+    #  - MYSQL_ROOT_PASSWORD=123456
+    #  - MYSQL_DATABASE=Dockerdb
+    #  - MYSQL_USER=docker_user
+    #  - MYSQL_PASSWORD=123456
+    #  - SHOW=true
+    # Case 2 
+    # using environemnt file in the current directory
+    env_file: mysql-config.txt
+    # Using docker volume
+    # To use docker volumes (bind-volume)
+    # volumes:
+    #  - 'D:/docker/volumes/mysql:/var/lib/mysql'
+    # To use docker volumes (volume)
+    volumes:
+     - 'mysql_volume:/var/lib/mysql'
+# This is the optional. Create a new docker volume
+volumes:
+  # The volume name
+  mysql_volume:
+# This is the optional
+# networks: 

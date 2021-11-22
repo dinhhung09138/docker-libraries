@@ -1,0 +1,17 @@
+# This is the mandatory
+version: '3'
+# This is the mandatory
+services:
+  # Assign the name for the service
+  web:
+    # use image name
+    image: nginx:alpine
+    # Assign a container name
+    container_name: 'nginx'
+    # port mapping
+    ports:
+      - '8080:80'
+# This is the optional
+# volumes: 
+# This is the optional
+# networks: 
